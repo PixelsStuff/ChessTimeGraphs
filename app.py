@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
  # SETTINGS:
 
-user = 'Wins' #seems pretty 
+user = 'Wins' #seems pretty self explanatory 
 monthsago = '3' #takes games from this amount of time long ago. MUST BE A INT
 thetime_control = '600' #600 for 10 minute rapid, 300 for 5 minute blitz, 60 for 1 minute bullet. 
 
