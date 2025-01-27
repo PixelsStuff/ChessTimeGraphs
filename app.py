@@ -50,9 +50,9 @@ def getgames(username, monthspast, useragent='Wins'):
     """
     games_list = []
     
- 
+    
     now = datetime.now()
-    current_year, current_month = now.year, now.month
+    year, month = now.year, now.month
 
     # Chess.com's API requires a user-agent
     if useragent is None:
@@ -64,12 +64,11 @@ def getgames(username, monthspast, useragent='Wins'):
             "User-Agent": str(useragent)
         }
         
-
     for i in range(monthspast):
-        year = current_year - (current_month - i - 1) // 12
-        month = (current_month - i - 1) % 12 + 1
-
-        url = f"https://api.chess.com/pub/player/{username}/games/{year}/{month:02d}"
+        if len(str(month)) == 1:
+            month = '0' + str(month)
+        print(month,year)
+        url = f"https://api.chess.com/pub/player/{username}/games/{year}/{month}"
 
         try:
             response = requests.get(url, headers=headers)
@@ -82,9 +81,15 @@ def getgames(username, monthspast, useragent='Wins'):
                     print("One game failed to load")
 
         except requests.exceptions.RequestException as e:
-            print(f"An error occurred for {year}-{month:02d}: {e}")
+            print(f"An error occurred for {year}-{month}: {e}")
             break  
+        month = int(month)
+        month -= 1
+        if month <= 0:
+            year -= 1
+            month = 12
         
+            
     return games_list
 def get_timeandusers_pgn(pgn):
     # Regular expressions to match move times and usernames - Chatgpt 
